@@ -1,10 +1,16 @@
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
+import Activities from './components/Activities.jsx'
+import Leaderboard from './components/Leaderboard.jsx'
+import Teams from './components/Teams.jsx'
+import Users from './components/Users.jsx'
+import Workouts from './components/Workouts.jsx'
 
 const sections = [
-  { path: '/activities', label: 'Activities' },
-  { path: '/teams', label: 'Teams' },
-  { path: '/leaderboard', label: 'Leaderboard' },
-  { path: '/workouts', label: 'Workouts' },
+  { path: '/users', label: 'Users', Component: Users },
+  { path: '/activities', label: 'Activities', Component: Activities },
+  { path: '/teams', label: 'Teams', Component: Teams },
+  { path: '/leaderboard', label: 'Leaderboard', Component: Leaderboard },
+  { path: '/workouts', label: 'Workouts', Component: Workouts },
 ]
 
 function App() {
@@ -18,7 +24,11 @@ function App() {
           </Link>
           <div className="navbar-nav">
             {sections.map(({ path, label }) => (
-              <NavLink className="nav-link" key={path} to={path}>
+              <NavLink
+                className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+                key={path}
+                to={path}
+              >
                 {label}
               </NavLink>
             ))}
@@ -38,12 +48,8 @@ function App() {
               </>
             }
           />
-          {sections.map(({ path, label }) => (
-            <Route
-              element={<h1 className="display-5">{label}</h1>}
-              key={path}
-              path={path}
-            />
+          {sections.map(({ path, Component }) => (
+            <Route element={<Component />} key={path} path={path} />
           ))}
           <Route path="*" element={<h1 className="display-5">Page not found</h1>} />
         </Routes>

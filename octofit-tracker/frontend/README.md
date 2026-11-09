@@ -2,6 +2,20 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
+## OctoFit Tracker API configuration
+
+Set the Vite environment variable `VITE_CODESPACE_NAME` to your GitHub Codespace name
+in `octofit-tracker/frontend/.env.local`:
+
+```dotenv
+VITE_CODESPACE_NAME=your-codespace-name
+```
+
+Restart the Vite development server after changing this file. The frontend requests
+the API at `https://${VITE_CODESPACE_NAME}-8000.app.github.dev/api/[resource]/`.
+When `VITE_CODESPACE_NAME` is not set, it uses `http://localhost:8000/api/[resource]/`
+instead, so it never sends requests to a hostname containing `undefined`.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
