@@ -1,12 +1,7 @@
-const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
-const apiBaseUrl = codespaceName
-  ? `https://${codespaceName}-8000.app.github.dev/api`
-  : 'http://localhost:8000/api'
-
-export async function fetchCollection(resource, signal) {
-  const response = await fetch(`${apiBaseUrl}/${resource}/`, { signal })
+export async function fetchCollection(endpoint, signal) {
+  const response = await fetch(endpoint, { signal })
   if (!response.ok) {
-    throw new Error(`Could not load ${resource}: ${response.status} ${response.statusText}`)
+    throw new Error(`Could not load ${endpoint}: ${response.status} ${response.statusText}`)
   }
 
   const payload = await response.json()
@@ -16,5 +11,5 @@ export async function fetchCollection(resource, signal) {
   if (Array.isArray(collection)) return collection
   if (Array.isArray(collection?.results)) return collection.results
 
-  throw new Error(`The ${resource} API returned an unsupported response format`)
+  throw new Error(`The API at ${endpoint} returned an unsupported response format`)
 }

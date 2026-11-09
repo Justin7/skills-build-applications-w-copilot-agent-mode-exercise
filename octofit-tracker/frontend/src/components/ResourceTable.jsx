@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { fetchCollection } from '../api.js'
 
-function ResourceTable({ columns, resource, title }) {
+function ResourceTable({ columns, endpoint, title }) {
   const [records, setRecords] = useState([])
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -11,7 +11,7 @@ function ResourceTable({ columns, resource, title }) {
 
     async function loadRecords() {
       try {
-        setRecords(await fetchCollection(resource, controller.signal))
+        setRecords(await fetchCollection(endpoint, controller.signal))
         setError('')
       } catch (loadError) {
         if (loadError.name !== 'AbortError') setError(loadError.message)
@@ -22,7 +22,7 @@ function ResourceTable({ columns, resource, title }) {
 
     loadRecords()
     return () => controller.abort()
-  }, [resource])
+  }, [endpoint])
 
   return (
     <section>
@@ -42,7 +42,7 @@ function ResourceTable({ columns, resource, title }) {
             </thead>
             <tbody>
               {records.map((record, index) => (
-                <tr key={record._id ?? record.id ?? `${resource}-${index}`}>
+                <tr key={record._id ?? record.id ?? `${title}-${index}`}>
                   {columns.map(({ heading, render }) => (
                     <td key={heading}>{render(record)}</td>
                   ))}

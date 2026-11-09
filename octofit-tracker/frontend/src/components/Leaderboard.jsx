@@ -1,5 +1,10 @@
 import ResourceTable from './ResourceTable.jsx'
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+const endpoint = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/leaderboard/`
+  : 'http://localhost:8000/api/leaderboard/'
+
 const columns = [
   { heading: 'Rank', render: ({ rank }) => rank },
   { heading: 'Athlete', render: ({ user }) => user?.username ?? 'Unknown athlete' },
@@ -9,7 +14,7 @@ const columns = [
 ]
 
 function Leaderboard() {
-  return <ResourceTable columns={columns} resource="leaderboard" title="Leaderboard" />
+  return <ResourceTable columns={columns} endpoint={endpoint} title="Leaderboard" />
 }
 
 export default Leaderboard

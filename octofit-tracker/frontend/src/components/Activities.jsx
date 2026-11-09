@@ -1,5 +1,10 @@
 import ResourceTable from './ResourceTable.jsx'
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+const endpoint = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/activities/`
+  : 'http://localhost:8000/api/activities/'
+
 const columns = [
   {
     heading: 'Athlete',
@@ -16,7 +21,7 @@ const columns = [
 ]
 
 function Activities() {
-  return <ResourceTable columns={columns} resource="activities" title="Activities" />
+  return <ResourceTable columns={columns} endpoint={endpoint} title="Activities" />
 }
 
 export default Activities
